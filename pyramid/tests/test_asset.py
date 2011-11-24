@@ -1,6 +1,8 @@
 import unittest
 
+
 class Test_resolve_asset_spec(unittest.TestCase):
+
     def _callFUT(self, spec, package_name='__main__'):
         from pyramid.resource import resolve_asset_spec
         return resolve_asset_spec(spec, package_name)
@@ -19,7 +21,7 @@ class Test_resolve_asset_spec(unittest.TestCase):
         package_name, filename = self._callFUT(path, pkg)
         self.assertEqual(package_name, 'pyramid.tests')
         self.assertEqual(filename, 'test_asset.py')
-        
+
     def test_abs_spec(self):
         pkg = 'pyramid.tests'
         path = 'pyramid.nottests:test_asset.py'
@@ -44,6 +46,7 @@ class Test_resolve_asset_spec(unittest.TestCase):
 
 
 class Test_abspath_from_asset_spec(unittest.TestCase):
+
     def _callFUT(self, spec, pname='__main__'):
         from pyramid.resource import abspath_from_asset_spec
         return abspath_from_asset_spec(spec, pname)
@@ -63,7 +66,9 @@ class Test_abspath_from_asset_spec(unittest.TestCase):
         result = self._callFUT('abc', 'pyramid.tests')
         self.assertEqual(result, os.path.join(path, 'abc'))
 
+
 class Test_asset_spec_from_abspath(unittest.TestCase):
+
     def _callFUT(self, abspath, package):
         from pyramid.asset import asset_spec_from_abspath
         return asset_spec_from_abspath(abspath, package)
@@ -88,11 +93,13 @@ class Test_asset_spec_from_abspath(unittest.TestCase):
         result = self._callFUT(abspath, pkg)
         self.assertEqual(result, abspath)
 
+
 class TestPkgResourcesAssetDescriptor(unittest.TestCase):
+
     def setUp(self):
         from pyramid.asset import PkgResourcesAssetDescriptor
-        self.asset_descr = PkgResourcesAssetDescriptor('pyramid.tests','abc')
-    
+        self.asset_descr = PkgResourcesAssetDescriptor('pyramid.tests', 'abc')
+
     def test_abspath(self):
         import os
         here = os.path.dirname(__file__)
@@ -102,40 +109,43 @@ class TestPkgResourcesAssetDescriptor(unittest.TestCase):
     def test_stream(self):
         """ checks to make sure call is correct """
         self.asset_descr.pkg_resources = DummyPkgResource()
-        self.asset_descr.pkg_resources.resource_stream = lambda x,y: '%s:%s'\
-                                                            % (x,y)
-        
+        self.asset_descr.pkg_resources.resource_stream = lambda x, y: '%s:%s'\
+                                                            % (x, y)
+
         self.assertEqual(self.asset_descr.stream(),
-                         '%s:%s' % ('pyramid.tests','abc'))
-        
+                         '%s:%s' % ('pyramid.tests', 'abc'))
+
     def test_isdir(self):
         """ checks to make sure call is correct """
         self.asset_descr.pkg_resources = DummyPkgResource()
-        self.asset_descr.pkg_resources.resource_isdir= lambda x,y: '%s:%s'\
-                                                            % (x,y)
-        
+        self.asset_descr.pkg_resources.resource_isdir = lambda x, y: '%s:%s'\
+                                                            % (x, y)
+
         self.assertEqual(self.asset_descr.isdir(),
-                         '%s:%s' % ('pyramid.tests','abc'))
+                         '%s:%s' % ('pyramid.tests', 'abc'))
 
     def test_listdir(self):
         self.asset_descr.pkg_resources = DummyPkgResource()
-        self.asset_descr.pkg_resources.resource_listdir = lambda x,y: '%s:%s'\
-                                                            % (x,y)
-        
+        self.asset_descr.pkg_resources.resource_listdir = lambda x, y: '%s:%s'\
+                                                            % (x, y)
+
         self.assertEqual(self.asset_descr.listdir(),
-                         '%s:%s' % ('pyramid.tests','abc'))
+                         '%s:%s' % ('pyramid.tests', 'abc'))
 
     def test_exists(self):
         self.asset_descr.pkg_resources = DummyPkgResource()
-        self.asset_descr.pkg_resources.resource_exists = lambda x,y: '%s:%s'\
-                                                            % (x,y)
-        
+        self.asset_descr.pkg_resources.resource_exists = lambda x, y: '%s:%s'\
+                                                            % (x, y)
+
         self.assertEqual(self.asset_descr.exists(),
-                         '%s:%s' % ('pyramid.tests','abc'))
+                         '%s:%s' % ('pyramid.tests', 'abc'))
+
 
 class DummyPackage:
+
     def __init__(self, name):
         self.__name__ = name
 
+
 class DummyPkgResource(object):
-    pass    
+    pass
