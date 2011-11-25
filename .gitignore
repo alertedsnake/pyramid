@@ -7,6 +7,7 @@
 *~
 .coverage
 .tox/
+.ropeproject
 nosetests.xml
 pyramid/coverage.xml
 tutorial.db
